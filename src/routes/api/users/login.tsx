@@ -35,9 +35,10 @@ export async function POST({ request }: APIEvent) {
         {
             status: 200,
             headers: {
-                "Content-Type": "application/json",
-                "Set-Cookie": `token=${token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Lax`,
+                "Content-Type": "application/json",//todo: HttpOnly; removed from cookie here
+                "Set-Cookie": `token=${token}; Path=/; Max-Age=604800; SameSite=Lax`,
             },
         }
     );
 }
+

@@ -1,30 +1,44 @@
 // src/routes/api/trpc/trpc.ts
 import { eventHandler } from "vinxi/http";
 import { WebSocketServer } from "ws";
-import { applyWSSHandler } from "@trpc/server/adapters/ws";
+import { applyWSSHandler, type CreateWSSContextFn } from "@trpc/server/adapters/ws";
 import { appRouter } from '../server/api';
+import jwt from "jsonwebtoken";
 
-// Create a map to avoid duplicate handler init
+// Maintain server outside to prevent duplicate creation
 let wss: WebSocketServer | undefined;
 
+const createContext: CreateWSSContextFn<any> = (incoming) => {
+    const token = incoming?.info?.connectionParams?.token
+    let user = null;
+
+    if (token) {
+        try {
+            user = jwt.verify(token, process.env.JWT_SECRET_TOKEN ?? "dev-secret");
+        } catch (e) {
+            console.warn("Invalid JWT in WS:", e);
+        }
+    }
+
+    return { user };
+};
+
 export default eventHandler({
-    handler() { },
+    handler() {},
     websocket: {
         async open(peer) {
             if (!wss) {
                 wss = new WebSocketServer({ noServer: true });
-                const createContext = () => ({})
-                applyWSSHandler({ wss, router: appRouter, createContext });
+
+                applyWSSHandler({
+                    wss,
+                    router: appRouter,
+                    createContext,
+                });
             }
 
-            wss.emit("connection", peer.websocket, peer.request);
+            // 👇 Very important: this makes peer.params work
+            wss.emit("connection", peer.websocket, peer.request, peer);
         },
-        async message(peer, msg) {
-            //console.log("update received");
-        },
-        async error(peer, err) {
-            console.error("WebSocket error:", err);
-        },
-        async close(peer) { },
     },
 });

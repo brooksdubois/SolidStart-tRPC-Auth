@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server';
+import {initTRPC, TRPCError} from '@trpc/server';
 import {
   counter$,
   increment,
@@ -24,7 +24,10 @@ export const appRouter = t.router({
 
     decrement: t.procedure.mutation(decrement),
 
-    startTimer: t.procedure.mutation(startTimer),
+    startTimer: t.procedure.mutation(({ ctx }) => {
+        if (!ctx.user) throw new TRPCError({code: 'UNAUTHORIZED'});
+        startTimer()
+    }),
 
     pauseTimer: t.procedure.mutation(pauseTimer),
 
