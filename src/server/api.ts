@@ -1,5 +1,4 @@
 import { initTRPC } from '@trpc/server';
-import { z } from "zod";
 import {
   counter$,
   increment,
@@ -10,12 +9,14 @@ import {
   reset,
   isRunning$
 } from '../shared/counter';
-import {db} from "../db/client";
-import { todo } from "../db/schema";
+import {addTodo, initTodoList, todoList$} from "../shared/todoList";
+import {NewTodoSchema} from "../db/todo/schema";
 
 const t = initTRPC.create();
 
-startAutoIncrement(); // Auto-increment every second
+startAutoIncrement();
+
+await initTodoList();
 
 export const appRouter = t.router({
 
@@ -33,12 +34,12 @@ export const appRouter = t.router({
 
     onTimerStatusChange: t.procedure.subscription(() => isRunning$.asObservable()),
 
+    onTodoListChange: t.procedure.subscription(() => todoList$.asObservable()),
+
     createTodo: t.procedure
-        .input(z.object({ data: z.string().min(1) }))
-        .mutation(async ({ input }) => {
-            await db.insert(todo).values({ data: input.data });
-            return { success: true };
-        }),
+        .input(NewTodoSchema)
+        .mutation(addTodo),
+
 });
 
 export type AppRouter = typeof appRouter;
