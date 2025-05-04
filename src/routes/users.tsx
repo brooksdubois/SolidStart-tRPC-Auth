@@ -47,9 +47,9 @@ export default function AuthPage() {
         />
 
         <FancyButton onClick={authAction("create-user")}>Sign Up</FancyButton>
-        {/*<button class={btnClass} onClick={authAction("login")}>Log In</button>*/}
-        {/*<button class={btnClass} onClick={action("profile")}>Check Me</button>*/}
-        {/*<button class={btnClass} onClick={action("logout")}>Logout</button>*/}
+        <FancyButton onClick={authAction("login-user")}>Log In</FancyButton>
+        <FancyButton onClick={authAction("profile-user")}>Check Me</FancyButton>
+        <FancyButton onClick={action("logout-user")}>Logout</FancyButton>
 
         <p class="mt-5 ml-20 text-xs text-left">
             <b>Response:</b> {message()}
