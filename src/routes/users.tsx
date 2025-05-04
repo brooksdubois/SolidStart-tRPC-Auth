@@ -6,8 +6,7 @@ import "../app.css";
 import TextInput from "~/components/TextInput";
 import FancyButton from "~/components/FancyButton";
 
-const btnClass = 'rounded border-2 border-black bg-gray-300 px-4 transition-all hover:bg-gray-400 active:bg-gray-400 disabled:cursor-not-allowed disabled:bg-gray-400'
-const baseUrl = "http://localhost:3000/api"
+const baseUrl = "http://localhost:3000/api/users"
 
 export default function AuthPage() {
     const [username, setUsername] = createSignal("");
@@ -46,10 +45,10 @@ export default function AuthPage() {
             onInput={(e) => setPassword(e.currentTarget.value)}
         />
 
-        <FancyButton onClick={authAction("create-user")}>Sign Up</FancyButton>
-        <FancyButton onClick={authAction("login-user")}>Log In</FancyButton>
-        <FancyButton onClick={authAction("profile-user")}>Check Me</FancyButton>
-        <FancyButton onClick={action("logout-user")}>Logout</FancyButton>
+        <FancyButton onClick={authAction("signup")}>Sign Up</FancyButton>
+        <FancyButton onClick={authAction("login")}>Log In</FancyButton>
+        <FancyButton onClick={authAction("profile")}>Check Me</FancyButton>
+        <FancyButton onClick={action("logout")}>Logout</FancyButton>
 
         <p class="mt-5 ml-20 text-xs text-left">
             <b>Response:</b> {message()}
