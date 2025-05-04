@@ -38,6 +38,7 @@ export default function Home() {
             </For>
             <div class="flex items-center gap-2 mb-4 w-full max-w-[400px] mx-auto">
                 <TextInput
+                    placeholder="Enter todo..."
                     value={newTodoText()}
                     onInput={(e) => setNewTodoText(e.currentTarget.value)}
                 />
