@@ -1,4 +1,23 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
+
+:root {
+  --background-rgb: 214, 219, 220;
+  --foreground-rgb: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-rgb: 0, 0, 0;
+    --foreground-rgb: 255, 255, 255;
+  }
+}
+
 body {
+  background: rgb(var(--background-rgb));
+  color: rgb(var(--foreground-rgb));
   font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
@@ -38,26 +57,26 @@ p {
   }
 }
 
-button {
-  padding: 0.5em 1.2em;
-  margin: 1em;
-  font-weight: 600;
-  font-family: inherit;
-  border-radius: 0.5em;
-  background-color: transparent;
-  color: #000000;
-  border: 2px solid #555;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
+/*button {*/
+/*  padding: 0.5em 1.2em;*/
+/*  margin: 1em;*/
+/*  font-weight: 600;*/
+/*  font-family: inherit;*/
+/*  border-radius: 0.5em;*/
+/*  background-color: transparent;*/
+/*  color: #000000;*/
+/*  border: 2px solid #555;*/
+/*  cursor: pointer;*/
+/*  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;*/
+/*}*/
 
-button:hover {
-  background: linear-gradient(135deg, #b3b3b3, #454545);
-  color: white;
-  border-color: transparent;
-}
+/*button:hover {*/
+/*  background: linear-gradient(135deg, #b3b3b3, #454545);*/
+/*  color: white;*/
+/*  border-color: transparent;*/
+/*}*/
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/*button:disabled {*/
+/*  opacity: 0.5;*/
+/*  cursor: not-allowed;*/
+/*}*/

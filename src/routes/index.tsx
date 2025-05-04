@@ -2,9 +2,9 @@ import { createSignal, onMount, onCleanup, createResource, Suspense } from 'soli
 import { createTRPCClient, createWSClient, wsLink } from '@trpc/client';
 import type { AppRouter } from '~/server/api';
 import * as R from 'ramda';
+import Button from "~/components/button";
 
 const socketUrl = 'ws://localhost:3000/trpc/';
-// const socketUrl = 'wss://solid-rx-rpc-ws-bun.deno.dev/trpc/';
 
 const client = createTRPCClient<AppRouter>({
     links: [wsLink({ client: createWSClient({ url: socketUrl }) })],
@@ -20,6 +20,7 @@ const decrementRPC = () => client.decrement.mutate().catch(logError);
 const startTimerRPC = () => client.startTimer.mutate().catch(logError);
 const pauseTimeRPC = () => client.pauseTimer.mutate().catch(logError);
 const resetRPC = () => client.reset.mutate().catch(logError);
+const createTodo = () => client.createTodo.mutate({ data: "hello Brooks" }).catch(logError);
 
 export default function Home() {
     const [count, setCount] = createSignal<number | null>(null);
@@ -47,8 +48,8 @@ export default function Home() {
                 </Suspense>
             </h1>
             <div>
-                <button onClick={incrementRPC} class="button-increment">＋</button>
-                <button onClick={decrementRPC} class="button-decrement">－</button>
+                <Button onClick={incrementRPC}>＋</Button>
+                <Button onClick={decrementRPC}>－</Button>
             </div>
             <h2>
                 <Suspense fallback={<span>Timer:</span>}>
@@ -60,13 +61,17 @@ export default function Home() {
                 </Suspense>
             </h2>
             <div>
-                <button onClick={startTimerRPC} class="button-base" disabled={timerIsRunning() ?? true}>
+                <Button onClick={startTimerRPC} disabled={timerIsRunning() ?? true}>
                     Start Timer
-                </button>
-                <button onClick={pauseTimeRPC} class="button-base" disabled={!timerIsRunning()}>
+                </Button>
+                <Button onClick={pauseTimeRPC} disabled={!timerIsRunning()}>
                     Pause Timer
-                </button>
-                <button onClick={resetRPC} class="button-stop">Reset Timer</button>
+                </Button>
+                <Button onClick={resetRPC}>Reset Timer</Button>
+            </div>
+            <div>
+                TODO STUFF
+                <Button onClick={createTodo}>Create Todo</Button>
             </div>
         </main>
     );

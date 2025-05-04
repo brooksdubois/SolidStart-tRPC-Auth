@@ -1,4 +1,5 @@
 import { defineConfig } from "@solidjs/start/config";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     server: {
@@ -7,6 +8,9 @@ export default defineConfig({
             websocket: true,
         },
     },
+    vite: {
+        plugins: [tailwindcss()]
+    }
 }).addRouter({
     name: "trpc",
     type: "http",
