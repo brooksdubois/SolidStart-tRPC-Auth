@@ -9,8 +9,8 @@ import {
   reset,
   isRunning$
 } from '../shared/counter';
-import {addTodo, initTodoList, todoList$} from "../shared/todoList";
-import {NewTodoSchema} from "../db/todo/schema";
+import {addTodo, checkedTodo, deleteTodo, initTodoList, todoList$} from "../shared/todoList";
+import {NewTodoSchema, CheckedTodoSchema, DeletedTodoSchema} from "../db/todo/schema";
 
 const t = initTRPC.create();
 
@@ -36,9 +36,11 @@ export const appRouter = t.router({
 
     onTodoListChange: t.procedure.subscription(() => todoList$.asObservable()),
 
-    createTodo: t.procedure
-        .input(NewTodoSchema)
-        .mutation(addTodo),
+    createTodo: t.procedure.input(NewTodoSchema).mutation(addTodo),
+
+    updateTodoChecked: t.procedure.input(CheckedTodoSchema).mutation(checkedTodo),
+
+    deleteTodo: t.procedure.input(DeletedTodoSchema).mutation(deleteTodo)
 
 });
 

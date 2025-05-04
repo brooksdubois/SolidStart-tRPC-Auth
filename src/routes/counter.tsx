@@ -1,5 +1,5 @@
 import { createSignal, onMount, onCleanup, createResource, Suspense } from 'solid-js';
-import Button from "~/components/button";
+import FancyButton from "~/components/FancyButton";
 import {getClient, logError, unsubscribeAll} from "~/util/rxUtils";
 
 const client = getClient()
@@ -34,8 +34,8 @@ export default function Counter() {
                 </Suspense>
             </h1>
             <div>
-                <Button onClick={incrementRPC}>＋</Button>
-                <Button onClick={decrementRPC}>－</Button>
+                <FancyButton onClick={incrementRPC}>＋</FancyButton>
+                <FancyButton onClick={decrementRPC}>－</FancyButton>
             </div>
             <h2>
                 <Suspense fallback={<span>Timer:</span>}>
@@ -47,13 +47,13 @@ export default function Counter() {
                 </Suspense>
             </h2>
             <div>
-                <Button onClick={startTimerRPC} disabled={timerIsRunning() ?? true}>
+                <FancyButton onClick={startTimerRPC} disabled={timerIsRunning() ?? true}>
                     Start Timer
-                </Button>
-                <Button onClick={pauseTimeRPC} disabled={!timerIsRunning()}>
+                </FancyButton>
+                <FancyButton onClick={pauseTimeRPC} disabled={!timerIsRunning()}>
                     Pause Timer
-                </Button>
-                <Button onClick={resetRPC}>Reset Timer</Button>
+                </FancyButton>
+                <FancyButton onClick={resetRPC}>Reset Timer</FancyButton>
             </div>
         </main>
     );

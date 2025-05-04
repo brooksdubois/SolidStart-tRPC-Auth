@@ -1,4 +1,4 @@
-export default function Button(props: any) {
+export default function FancyButton(props: any) {
     const disabled = () =>
         typeof props.disabled === "function" ? props.disabled() : props.disabled;
 

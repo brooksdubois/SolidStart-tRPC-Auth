@@ -16,9 +16,18 @@ export const TodoSchema = z.object({
 
 export type Todo = z.infer<typeof TodoSchema>;
 
-
 export const NewTodoSchema = z.object({
   data: z.string(),
 });
-
 export type NewTodoInput = z.infer<typeof NewTodoSchema>;
+
+export const CheckedTodoSchema = z.object({
+  id: z.string(),
+  isEnabled: z.boolean()
+});
+export type CheckedTodoInput = z.infer<typeof CheckedTodoSchema>;
+
+export const DeletedTodoSchema = z.object({
+  id: z.string()
+});
+export type DeletedTodoInput = z.infer<typeof DeletedTodoSchema>;

@@ -1,4 +1,5 @@
 import {createSignal} from "solid-js";
+import {getClient, logError} from "~/util/rxUtils";
 
 interface TodoProps {
   id: string;
@@ -6,21 +7,33 @@ interface TodoProps {
   isEnabled: boolean;
 }
 
+const client = getClient()
+
 export default function Todo(props: TodoProps) {
     const [checked, setChecked] = createSignal(props.isEnabled); // Local state for checkbox
 
+    const updateTodoCheckbox = (e: Event) => {
+        const isChecked = (e.currentTarget as HTMLInputElement).checked;
+        setChecked(isChecked); // optimistic update
+        client.updateTodoChecked
+            .mutate({ id: props.id, isEnabled: isChecked })
+            .catch((err) => {
+                logError(err);
+                setChecked(!isChecked); // rollback if failed
+            });
+    };
+
     const todoDelete = () => {
-        console.log("TODO Delete called", props.id)
+        client.deleteTodo.mutate({ id: props.id }).catch(logError)
     }
+
     return (
       <div class={'flex flex-row justify-center gap-4'}>
           <pre>{props.data}</pre>
           <input
               type="checkbox"
               checked={checked()}
-              onChange={() => {
-                  console.log("TODO IS CHANGED", props.id)
-              }}
+              onChange={updateTodoCheckbox}
           />
           <button
               class={
