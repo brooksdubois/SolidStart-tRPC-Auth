@@ -7,7 +7,7 @@ import TextInput from "~/components/TextInput";
 
 const client = getClient()
 
-export default function Home() {
+export default function Index() {
     const [todoList, setTodoList] = createSignal<[TodoSchema] | null>(null);
     const [newTodoText, setNewTodoText] = createSignal("");
     const [isSubmitting, setIsSubmitting] = createSignal(false);
@@ -39,7 +39,7 @@ export default function Home() {
         <>
             <For each={todoList()}>
                 {(todo) => (
-                    <div class='mb-2'>
+                    <div class='mb-1 mt-1'>
                         <Todo id={todo.id} data={todo.data} isEnabled={todo.isEnabled}/>
                     </div>
                 )}

@@ -4,22 +4,22 @@ import {getClient, logError, unsubscribeAll} from "~/util/rxUtils";
 
 const client = getClient()
 
-const incrementRPC = () => client.increment.mutate().catch(logError);
-const decrementRPC = () => client.decrement.mutate().catch(logError);
-const startTimerRPC = () => client.startTimer.mutate().catch(logError);
-const pauseTimeRPC = () => client.pauseTimer.mutate().catch(logError);
-const resetRPC = () => client.reset.mutate().catch(logError);
+const incrementRPC = () => client!.increment.mutate().catch(logError);
+const decrementRPC = () => client!.decrement.mutate().catch(logError);
+const startTimerRPC = () => client!.startTimer.mutate().catch(logError);
+const pauseTimeRPC = () => client!.pauseTimer.mutate().catch(logError);
+const resetRPC = () => client!.reset.mutate().catch(logError);
 
 export default function Counter() {
     const [count, setCount] = createSignal<number | null>(null);
     const [timerIsRunning, setTimerIsRunning] = createSignal<boolean | null>(null);
 
     onMount(() => {
-        const valueSub = client.onCounterChange.subscribe(undefined, {
+        const valueSub = client!.onCounterChange.subscribe(undefined, {
             onData: setCount, onError: logError,
         });
 
-        const timerSub = client.onTimerStatusChange.subscribe(undefined, {
+        const timerSub = client!.onTimerStatusChange.subscribe(undefined, {
             onData: setTimerIsRunning, onError: logError,
         });
 

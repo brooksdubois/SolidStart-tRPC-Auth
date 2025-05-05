@@ -2,13 +2,13 @@ import { createSignal } from "solid-js";
 import { fromFetch } from "rxjs/fetch";
 import { switchMap, catchError } from "rxjs/operators";
 import { of } from "rxjs";
-import "../app.css";
+import "../../app.css";
 import TextInput from "~/components/TextInput";
 import FancyButton from "~/components/FancyButton";
 
 const baseUrl = "http://localhost:3000/api/users"
 
-export default function AuthPage() {
+export default function Users() {
     const [username, setUsername] = createSignal("");
     const [password, setPassword] = createSignal("");
     const [message, setMessage] = createSignal("");
