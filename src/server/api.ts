@@ -11,12 +11,13 @@ import {
 } from '../shared/counter';
 import {addTodo, checkedTodo, deleteTodo, initTodoList, todoList$} from "../shared/todoList";
 import {NewTodoSchema, CheckedTodoSchema, DeletedTodoSchema} from "../db/todo/schema";
+import {Context} from "../lib/trpc";
 
-const t = initTRPC.create();
+const t = initTRPC.context<Context>().create();
 
 startAutoIncrement();
 
-await initTodoList();
+initTodoList();
 
 export const appRouter = t.router({
 
@@ -25,7 +26,9 @@ export const appRouter = t.router({
     decrement: t.procedure.mutation(decrement),
 
     startTimer: t.procedure.mutation(({ ctx }) => {
-        if (!ctx.user) throw new TRPCError({code: 'UNAUTHORIZED'});
+        console.log(ctx)
+        // @ts-ignore
+        if (!ctx.user) throw new TRPCError({ code: 'UNAUTHORIZED' });
         startTimer()
     }),
 

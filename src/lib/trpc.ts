@@ -1,4 +1,3 @@
-// src/routes/api/trpc/trpc.ts
 import { eventHandler } from "vinxi/http";
 import { WebSocketServer } from "ws";
 import { applyWSSHandler, type CreateWSSContextFn } from "@trpc/server/adapters/ws";
@@ -23,6 +22,8 @@ const createContext: CreateWSSContextFn<any> = (incoming) => {
     return { user };
 };
 
+export type Context = Awaited<ReturnType<typeof createContext>>;
+
 export default eventHandler({
     handler() {},
     websocket: {
@@ -37,7 +38,6 @@ export default eventHandler({
                 });
             }
 
-            // 👇 Very important: this makes peer.params work
             wss.emit("connection", peer.websocket, peer.request, peer);
         },
     },
