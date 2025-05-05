@@ -1,6 +1,6 @@
 import FancyButton from "~/components/FancyButton";
 import {createSignal, For, onCleanup, onMount} from "solid-js";
-import {getClient, logError, unsubscribeAll} from "~/util/rxUtils";
+import {getClient, logError} from "~/util/rxUtils";
 import Todo from "~/components/Todo";
 import { Todo as TodoSchema } from "~/db/todo/schema"
 import TextInput from "~/components/TextInput";
@@ -32,7 +32,9 @@ export default function Index() {
             onError: logError,
         });
 
-        onCleanup(unsubscribeAll(valueSub!.unsubscribe));
+        onCleanup(() => {
+            valueSub!.unsubscribe()
+        });
     });
 
     return (

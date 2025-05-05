@@ -2,17 +2,17 @@ import { createSignal, onMount, onCleanup, createResource, Suspense } from 'soli
 import FancyButton from "~/components/FancyButton";
 import {getClient, logError, unsubscribeAll} from "~/util/rxUtils";
 
-const client = getClient()
-
-const incrementRPC = () => client!.increment.mutate().catch(logError);
-const decrementRPC = () => client!.decrement.mutate().catch(logError);
-const startTimerRPC = () => client!.startTimer.mutate().catch(logError);
-const pauseTimeRPC = () => client!.pauseTimer.mutate().catch(logError);
-const resetRPC = () => client!.reset.mutate().catch(logError);
-
 export default function Counter() {
     const [count, setCount] = createSignal<number | null>(null);
     const [timerIsRunning, setTimerIsRunning] = createSignal<boolean | null>(null);
+
+    const client = getClient()
+
+    const incrementRPC = () => client!.increment.mutate().catch(logError);
+    const decrementRPC = () => client!.decrement.mutate().catch(logError);
+    const startTimerRPC = () => client!.startTimer.mutate().catch(logError);
+    const pauseTimeRPC = () => client!.pauseTimer.mutate().catch(logError);
+    const resetRPC = () => client!.reset.mutate().catch(logError);
 
     onMount(() => {
         const valueSub = client!.onCounterChange.subscribe(undefined, {
@@ -23,7 +23,10 @@ export default function Counter() {
             onData: setTimerIsRunning, onError: logError,
         });
 
-        onCleanup(unsubscribeAll(valueSub.unsubscribe, timerSub.unsubscribe));
+        onCleanup(() => {
+            valueSub.unsubscribe()
+            timerSub.unsubscribe()
+        });
     });
 
     return (
