@@ -23,6 +23,3 @@ export const getClient = () => {
 };
 
 export const logError = (err: any) => console.error('tRPC error:', err);
-
-// export const unsubscribeAll = (...subs: Array<() => void>) => () =>
-//     R.forEach(R.invoker(0, 'unsubscribe'), subs);
